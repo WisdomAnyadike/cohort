@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    //forEach map reduce some every find findIndex filter
+
+
+
+</body>
+
+</html>
+<script>
+
+    let arr = [1, 2, 3, 4, 6, 7, 8, 9, 10]
+    let namesArr = [{name: 'dan' , class:'ss3'}, {name:'daniel', class:"js"}]
+    console.log(arr.forEach((num, index, array) => {
+        return
+    }));
+
+    let newArr = arr.map((num, index, array) => {
+        console.log('hello');
+        return 2
+    })
+
+    let total = arr.reduce((a, b) => a - b, 0)
+    console.log(total);
+    let doesArrHaveValue5 = arr.every((num) => typeof num === "number")
+    console.log(doesArrHaveValue5);
+
+    let findDaniel = namesArr.findIndex((name) => name.name === 'daniel')
+    console.log(findDaniel);
+
+</script>

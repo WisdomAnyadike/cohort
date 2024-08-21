@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+    <input id="input" type="text">
+    <button onclick="sensor()"> click me</button>
+    <button onclick="helpDelete()"> delete </button>
+    <button onclick="triggerPrompt()"> prompt</button>
+    <div id="preview">
+
+    </div>
+
+</body>
+
+</html>
+<script>
+    const preview = document.getElementById('preview')
+
+    function sensor() {
+        const input = document.getElementById('input').value
+        const sensoredWord = input.replace('shit', '****').replace('fuck', '****').replace('foolish', "*******").replace('stupid', "*******")
+        preview.innerHTML = sensoredWord
+    }
+
+    let num = -1
+
+    if (num > 0) {
+        console.log(`${num} is a positive number`)
+    }
+    //  3 is a positive number
+
+    let isRaining = true
+
+    if (' ') {
+        console.log('Remember to take your rain coat.')
+    }
+
+    let val = '54t'
+    val = Number(val)
+    let val1 = '56w'
+    val1 = Number(val)
+
+
+
+    if (val == val1) {
+
+    }
+
+    let val2 = 0
+    val2 **= 4
+    val2 = val2 ** 4
+
+
+    console.log(val2);
+
+    let boolean = '3' !== 3
+    console.log(boolean);
+
+    let ourValue = 0
+
+    if (ourValue > 0) {
+        console.log(`${ourValue} is a positive number`)
+    } else if (ourValue === 0) {
+        console.log(`${ourValue} is equal to zero`)
+    } else if (ourValue < 0) {
+        console.log(`${ourValue} is a negative number`)
+    } else {
+        console.log(`${ourValue} is not a number`)
+    }
+
+    let key = true
+    switch (key) {
+        case (10 < 2):
+            console.log(`it is sunny`)
+            break;
+        case (20 > 40):
+            console.log(`it is rainy`)
+            break;
+        case (2 == 2):
+            console.log(`it is cloudy`)
+            break;
+
+        default:
+            console.log(`we dont know what the weather is right now`)
+            break;
+    }
+
+
+    // window.alert('heyyyyy class')
+    function helpDelete(params) {
+        let confimer = window.confirm('are you sure?')
+        if (confimer) {
+            alert('delete successful');
+        } else {
+            alert('couldnt delete at the moment');
+        }
+    }
+
+    function triggerPrompt() {
+        let ourPrompt = window.prompt('can i know your name?', 'input here')
+
+        if (ourPrompt.trim() === '') {
+            alert('you didnt provide a name')
+        } else {
+            alert(`hi ${ourPrompt}`)
+        }
+    }
+
+
+
+
+</script>

@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <input id="input" type="text">
+    <button onclick="check()"> check</button>
+
+</body>
+
+</html>
+<script>
+
+    // function check() {
+    //     let key = document.getElementById('input').value.toLowerCase().trim()
+    //     switch (key) {
+    //         case '':
+    //             alert('please input a month')
+    //             break;
+    //         case 'february':
+    //             alert('february has 28 days')
+    //             break;
+    //         case 'september':
+    //         case 'april':
+    //         case 'june':
+    //         case 'november':
+    //             alert(`${key} has 30 days`)
+    //             break;
+    //         case 'january':
+    //         case 'march':
+    //         case 'may':
+    //         case 'july':
+    //         case 'august':
+    //         case 'october':
+    //         case 'december':
+    //             alert(`${key} has 31 days`)
+    //             break;
+
+    //         default:
+    //             alert(`${key} is not a valid month`)
+    //             break;
+    //     }
+
+
+    // }
+
+    function check(params) {
+        let inputValue = document.getElementById('input').value.toLowerCase().trim()
+
+        if (inputValue === 'february' ) {
+            alert(`${inputValue} has 29 days`)
+        } else if (inputValue === 'january' || inputValue === "march" || inputValue === 'may' || inputValue === 'july' || inputValue === 'august' || inputValue === 'october' || inputValue === 'december'){
+            alert(`${inputValue} has 31 days`)
+        } else if(inputValue === 'april' || inputValue === 'september' || inputValue === 'june' || inputValue === 'november'){
+            alert(`${inputValue} has 30 days`)
+        } else if(inputValue === ''){
+            alert('You didn\'t enter anything')
+        }else{
+            alert('Plaese, enter a valid month')
+        }
+        
+    }
+
+
+
+
+
+
+</script>

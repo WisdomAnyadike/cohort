@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <input id="input" type="number">
+    <button onclick="check()">check</button>
+    <div id="output"></div>
+
+    <input id="input1" type="number" placeholder="mass">
+    <input id="input2" type="number" placeholder="height">
+    <button onclick="checkBmi()">check</button>
+    <div id="output1"></div>
+</body>
+
+</html>
+<script>
+    "use strict"
+    // Temperature in oC can be converted to oF using this formula: oF = (oC x 9/5) + 32. Write a function which convert oC to oF convertCelsiusToFahrenheit.
+
+
+
+
+
+
+    function newFunc(params) {
+        let mySchool = 5
+        console.log(mySchool);
+    }
+
+    newFunc()
+
+    function school(params) {
+        let a = 4
+        console.log(a);
+        return function church(params) {
+            let b = 6
+            return function hospital(params) {
+                let c = 8
+            }
+        }
+    }
+
+    school()()()
+
+    function check() {
+        let input = document.getElementById('input')
+        console.log(output);
+
+        let output = document.getElementById('output')
+        console.log(output);
+
+        let inputValue = Number(input.value)
+
+        let convert = (inputValue * 9 / 5) + 32
+        output.innerHTML = convert
+
+    }
+
+    console.log(output);
+
+
+    //Body mass index(BMI) is calculated as follows: bmi = weight in Kg / (height x height) in m2. Write a function which calculates bmi. BMI is used to broadly define different weight groups in adults 20 years old or older.Check if a person is underweight, normal, overweight or obese based the information given below.
+
+    //The same groups apply to both men and women.
+    // Underweight: BMI is less than 18.5
+    // Normal weight: BMI is 18.5 to 24.9
+    // Overweight: BMI is 25 to 29.9
+    // Obese: BMI is 30 or more
+
+    function checkBmi(params) {
+        if (input1.value.trim() === '' || input2.value.trim() === '' || isNaN(input1.value.trim()) || isNaN(input2.value.trim()) || input1.value <= 0 || input2.value <= 0) {
+            output1.innerHTML = 'provide a valid input'
+            return
+        }
+
+        let weight = input1.value.trim() * 10
+        let Bmi = (weight / (input2.value.trim() ** 2)).toFixed(2)
+
+        console.log(Bmi);
+        if (Bmi < 18.5) {
+            output1.innerHTML = 'underweight'
+        } else if (Bmi >= 18.5 && Bmi <= 24.9) {
+            output1.innerHTML = 'normal weight'
+        } else if (Bmi >= 25 && Bmi <= 29.9) {
+            output1.innerHTML = 'overweight'
+        } else {
+            output1.innerHTML = 'obese'
+        }
+
+    }
+
+
+    let wisdom = {
+        name: 'wisdom',
+        age: 14,
+        class: 'jss3',
+        occupation: 'student',
+        swim: function () {
+            return `i am swimming`
+        },
+        isShouting: true
+
+    }
+
+    wisdom.age = 56
+
+
+    console.log(wisdom.name);
+    console.log(wisdom['name']);
+
+    wisdom.swim = function () {
+        console.log('i hate swimming , please leave me');
+    };
+
+    console.log(wisdom);
+    wisdom.swim()
+    wisdom.isShouting = false
+
+    console.log(wisdom);
+
+    let arr = [1, 2, 3, 4, 5, 5, 6, 5, 4]
+
+    let i = 0
+    for (let num of arr) {
+        console.log(`${num} * ${i}= ${num * i}`);
+        i++
+    }
+
+    for (let key in wisdom) {
+        console.log(`${key} : ${wisdom[key]}`);
+    }
+
+    const users = {
+        Alex: {
+            email: 'alex@alex.com',
+            skills: ['HTML', 'CSS', 'JavaScript'],
+            age: 20,
+            isLoggedIn: false,
+            points: 30
+        },
+        Asab: {
+            email: 'asab@asab.com',
+            skills: ['HTML', 'CSS', 'JavaScript', 'Redux', 'MongoDB', 'Express', 'React', 'Node'],
+            age: 25,
+            isLoggedIn: false,
+            points: 50
+        },
+        Brook: {
+            email: 'daniel@daniel.com',
+            skills: ['HTML', 'CSS', 'JavaScript', 'React', 'Redux'],
+            age: 30,
+            isLoggedIn: true,
+            points: 50
+        },
+        Daniel: {
+            email: 'daniel@alex.com',
+            skills: ['HTML', 'CSS', 'JavaScript', 'Python'],
+            age: 20,
+            isLoggedIn: false,
+            points: 40
+        },
+        John: {
+            email: 'john@john.com',
+            skills: ['HTML', 'CSS', 'JavaScript', 'React', 'Redux', 'Node.js'],
+            age: 20,
+            isLoggedIn: true,
+            points: 50
+        },
+        Thomas: {
+            email: 'thomas@thomas.com',
+            skills: ['HTML', 'CSS', 'JavaScript', 'React'],
+            age: 20,
+            isLoggedIn: false,
+            points: 40
+        },
+        Paul: {
+            email: 'paul@paul.com',
+            skills: ['HTML', 'CSS', 'JavaScript', 'MongoDB', 'Express', 'React', 'Node'],
+            age: 20,
+            isLoggedIn: false,
+            points: 40
+        }
+    }
+
+    let pointsCount = 0
+    for (const key in users) {
+        if (users[key].points >= 50) {
+            pointsCount++
+        }
+    }
+
+    console.log(pointsCount);
+
+
+</script>

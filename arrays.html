@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <input id="input" type="text">
+    <button onclick="calculate()">calculate</button>
+    <p id="output"> </p>
+
+</body>
+
+</html>
+<script>
+    let arr = new Array(3).fill('hello')
+    console.log(arr);
+
+    let myArr = ['hello', 23, undefined, null, true, [], {}]
+    console.log(myArr);
+    myArr[3] = 'notNull'
+    console.log(myArr);
+
+    const fruits = ['banana', 'orange', 'mango', 'apple', 'lemon', 'apple']                 // array of fruits
+    const vegetables = ['Tomato', 'Potato', 'Cabbage', 'Onion', 'Carrot'] // array of vegetables
+
+    const fruitsandveggies = fruits.concat(vegetables)
+    console.log(fruitsandveggies);
+
+    console.log(fruits.lastIndexOf('apple'));
+    console.log(typeof (fruits));
+    console.log(Array.isArray(fruits));
+    console.log(fruits.toString('   '));
+    console.log(typeof fruits.join(' , '));
+
+    let input = document.getElementById('input')
+    let output = document.getElementById('output')
+
+    function calculate() {
+
+        let arr = input.value.split('+')
+        console.log(arr);
+        let ans = Number(arr[0].trim()) + Number(arr[1].trim())
+        output.innerHTML = ans
+    }
+
+    let numbers = [1, 2, 3, 4, 5]
+    let newNumbers = numbers.slice(3, 5)
+
+
+    let splicedValues = numbers.splice(2, 2, 'hello', 'hi', {})
+
+    console.log(splicedValues);
+
+
+    console.log(numbers);
+
+
+    // syntax
+    const arr2 = ['item1', 'item2', 'item3']
+    arr2.push('new item', 'old item', 6)
+    console.log(arr2)
+
+    arr2.pop()
+    arr2.pop()
+    arr2.pop()
+    console.log(arr2)
+
+    const newArr = ['zcd4', '5btyu', '1ath', 'absd', '3yuhd']
+    let numbers1 = ['102', '45', '793', '234']
+    console.log(newArr.sort());
+    console.log(numbers1.sort());
+
+
+    
+
+   
+
+
+</script>
