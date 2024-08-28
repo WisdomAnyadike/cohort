@@ -42,6 +42,9 @@
     <input type="text" id="CardInput" placeholder="*310*pin#">
     <button onclick="loadCard()"> load </button>
 
+    <p> <button id="allCards">All Cards </button> <button id="usedCards"> Used Cards</button> <button id="unUsed">
+            Unused Cards </button> </p>
+
     <table style="margin-top: 10px;">
         <thead>
             <th> s/n</th>
@@ -86,14 +89,14 @@
 
         rechargeCards.push(cardObj)
         localStorage.setItem('rechargeCards1', JSON.stringify(rechargeCards))
-        display()
+        display(rechargeCards)
 
 
     }
 
-    function display() {
+    function display(cards) {
         tbody.innerHTML = ''
-        rechargeCards.forEach((cardObj, i, arr) => {
+        cards.forEach((cardObj, i, arr) => {
             tbody.innerHTML += ` <tr>
                 <td> ${i + 1}  </td>
                 <td> ${cardObj.pin} </td>
@@ -104,7 +107,7 @@
         })
     }
 
-    display()
+    display(rechargeCards)
 
     function loadCard() {
         if (CardInput.value.trim()) {
@@ -137,6 +140,20 @@
 
     }
 
+    allCards.addEventListener('click', () => {
+        display(rechargeCards)
+    })
+
+    usedCards.addEventListener("click", () => {
+        const cardsUsed = rechargeCards.filter((cardObj) => cardObj.isUsed === true)
+        display(cardsUsed)
+    })
+
+    unUsed.addEventListener("click", () => {
+        const cardsUnUsed = rechargeCards.filter((cardObj) => cardObj.isUsed === false)
+        display(cardsUnUsed)
+    })
+
     // localStorage.clear()
     // localStorage.setItem('drake', JSON.stringify([2, 3, 4, 5,]))
 
@@ -144,4 +161,30 @@
     // let myItem = JSON.parse(localStorage.getItem('drake'))
     // console.log(myItem, typeof myItem);
     // localStorage.removeItem('drake')
+
+
+    function generateColor(color, amount) {
+        let hexaColors = []
+        let arr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 0, 'a', 'b', 'c', 'd', 'e', 'f']
+
+        for (let index = 0; index < amount; index++) {
+            let hexa = '#'
+            for (let index = 0; index < 6; index++) {
+                let randomNum = Math.floor(Math.random() * 16)
+                hexa += arr[randomNum]
+            }
+
+            hexaColors.push(hexa)
+
+        }
+
+        return hexaColors
+
+
+
+
+    }
+
+    console.log(generateColor('hexa', 8 ));
+
 </script>
