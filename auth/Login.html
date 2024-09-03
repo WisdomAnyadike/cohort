@@ -63,7 +63,7 @@
 
                     </div>
 
-                    <div class="links"> <a href="#">Forgot Password</a> <a href="#">Signup</a>
+                    <div class="links"> <a href="#">Forgot Password</a> <a href="signup.html">Signup</a>
 
                     </div>
 
@@ -84,7 +84,7 @@
 
 </html>
 <script>
-    let index = 0
+
     let arr = JSON.parse(localStorage.getItem('account'))
     function login() {
         button.innerHTML = 'loading...'
@@ -100,10 +100,20 @@
             if (!user) {
                 alert('user doesnt exist , try signing up')
                 window.location.href = 'signup.html'
-            }else if (user.password !== password.value){
-                  alert('invalid password')
-            }else{
-                alert('invalid user')
+            } else if (user.loginAttempts >= 3) {
+                alert('your account is barred , contact support')
+            } else if (user.password !== password.value) {
+                let value = user.loginAttempts
+                value++
+                user.loginAttempts = value
+                localStorage.setItem('account', JSON.stringify(arr))
+                alert('invalid password')
+            } else {
+                user.loginAttempts = 0
+                localStorage.setItem('account', JSON.stringify(arr))
+                localStorage.setItem('loggedInUser', JSON.stringify(user))
+                alert('login successful')
+                window.location.href = 'dashboard.html'
             }
 
 

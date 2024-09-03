@@ -141,7 +141,8 @@
                 username: username.value,
                 email: email.value,
                 password: password.value,
-                URL: url.value
+                URL: url.value,
+                loginAttempts: 0
             }
             arr.push(userObject)
             localStorage.setItem('account', JSON.stringify(arr))
