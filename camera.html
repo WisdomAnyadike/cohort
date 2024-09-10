@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #pic {
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            z-index: 5;
+        }
+
+        #vid {
+            width: 500px;
+            height: 500px;
+
+        }
+
+        #whole {
+            position: relative;
+            width: 500px;
+            height: 500px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="whole">
+        <video autoplay id="vid"> </video>
+        <button id="pic" onclick="takePic()"> take picture </button>
+    </div>
+
+    <button onclick="startCam()"> start </button>
+    <canvas width="100px" height="100px" id="canvas"> </canvas>
+
+
+    <div id="preview">
+
+    </div>
+
+</body>
+
+</html>
+<script>
+    let vid = document.getElementById('vid')
+    let picsArr = JSON.parse(localStorage.getItem('picsArr')) || []
+
+    async function startCam() {
+        let stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: false })
+
+        vid.srcObject = stream
+    }
+
+
+
+
+    function takePic() {
+        canvas.getContext('2d').drawImage(vid, 0, 0, canvas.width, canvas.height)
+        let val = canvas.toDataURL('image/jpg')
+        picsArr.push(val)
+        localStorage.setItem('picsArr', JSON.stringify(picsArr))
+        display()
+
+    }
+
+
+    function display() {
+        preview.innerHTML = ''
+        picsArr.forEach(element => {
+            preview.innerHTML += ` <button>
+             <img width="200" height="200" src="${element}"/>
+            </button>`
+        });
+
+
+    }
+
+    display()
+
+
+
+</script>
