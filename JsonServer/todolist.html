@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        table,
+        tr,
+        td,
+        th,
+        tbody {
+            padding: 10px;
+            border-collapse: collapse;
+            border: 1px solid black;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="div1">
+        <input id="input1"> <input id="input2"> <button onclick="addTodo()"> add todo </button>
+    </div>
+
+    <div id="div1">
+        <input id="input3"> <input id="input4"> <button onclick="editTodo()"> edit todo </button>
+    </div>
+
+
+    <table id="div">
+
+        <thead>
+            <th> s/n </th>
+            <th> name </th>
+            <th> todo </th>
+            <th> time created </th>
+            <th> edit </th>
+            <th> delete </th>
+        </thead>
+        <tbody id="tbody">
+
+
+        </tbody>
+
+    </table>
+
+</body>
+
+</html>
+<script>
+    let identifier
+    //get 
+    //post
+    //put
+    //delete
+
+
+
+    function addTodo() {
+        if (input1.value === '' || input2.value === '') {
+            alert('all fields are mandatory')
+            return
+        }
+
+        let myObj = {
+            name: input1.value,
+            todo: input2.value,
+            timeCreated: new Date().toUTCString()
+        }
+        fetch('http://localhost:3000/todos', {
+            'method': 'POST',
+            'Content-Type': 'application/json',
+            'body': JSON.stringify(myObj)
+        }).then((res) => res.json()).then((data) => {
+            alert('data posted successfully')
+            input1.value = ''
+            input2.value = ''
+            getTodos()
+        }
+        ).catch((err) => alert(err))
+
+    }
+
+    async function getTodos() {
+        try {
+            const res = await fetch('http://localhost:3000/todos')
+            const data = await res.json()
+
+            tbody.innerHTML = ``
+            if (data) {
+                data.forEach((todo, i) => {
+                    tbody.innerHTML += ` <tr>
+                     <td> ${i + 1} </td>
+                     <td> ${todo.name} </td>
+                     <td> ${todo.todo}</td>
+                     <td> ${todo.timeCreated} </td>
+                     <td> <button onclick="showTodo('${todo.id}')"> edit </button> </td>
+                     <td> <button onclick="deleteTodo('${todo.id}')"> delete </button> </td>
+                    </tr>`
+                });
+            }
+
+        } catch (error) {
+            alert(error);
+        }
+
+    }
+
+    getTodos()
+
+
+    console.log(identifier);
+
+    function showTodo(id) {
+        identifier = id
+        console.log(identifier);
+        fetch(`http://localhost:3000/todos/${id}`).then((res) => res.json()).then((data) => {
+            input3.value = data.name
+            input4.value = data.todo
+        }).catch((err) => alert(err))
+
+    }
+
+    function editTodo() {
+        if (input3.value === '' || input4.value === '') {
+            alert('all fields are mandatory')
+            return
+        }
+
+        let myObj = {
+            name: input3.value,
+            todo: input4.value,
+            timeCreated: new Date().toUTCString()
+        }
+
+        fetch(`http://localhost:3000/todos/${identifier}`, {
+            'method': 'PUT',
+            'body': JSON.stringify(myObj)
+        }).then((res) => res.json()).then((data) => {
+            alert('data edited successfully')
+            input3.value = ''
+            input4.value = ''
+            getTodos()
+        }
+        ).catch((err) => alert(err))
+    }
+
+
+    function deleteTodo(id) {
+        let confirmDelete = window.confirm('are you sure?')
+        if (confirmDelete) {
+            fetch(`http://localhost:3000/todos/${id}`, {
+                'method': 'DELETE'
+            }).then((res) => res.json()).then((data) => {
+                alert('data deleted successfully')
+                getTodos()
+            }
+                ).catch((err) => alert(err))
+        }
+
+
+    }
+</script>
