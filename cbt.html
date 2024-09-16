@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+    <div id="section">
+
+
+
+    </div>
+
+</body>
+
+</html>
+<script>
+
+    const quizData = [
+        {
+            question: "What is the capital of Alabama?",
+            options: [
+                "Jackson",
+                "Montgomery",
+                "Birmingham",
+                "Atlanta"],
+            answer: 'Montgomery'
+        },
+        {
+            question: "What is the capital of Alaska?",
+            options: [
+                "Anchorage",
+                "Fairbanks",
+                "Juneau",
+                "Sitka"
+            ],
+            answer: 'Juneau'
+        },
+        {
+            question: "What is the capital of Arizona?",
+            options: [
+                "Phoenix",
+                "Flagstaff",
+                "Mesa",
+                "Tucson"
+            ],
+            answer: 'Phoenix'
+        },
+
+    ];
+    let score = []
+    let questionIndex = 0
+
+
+    function display(params) {
+        section.innerHTML =
+            ` <h1>${quizData[questionIndex].question} </h1>
+
+        <p> 
+            ${quizData[questionIndex].options[0]} 
+
+            <input value="${quizData[questionIndex].options[0]}"  onchange="checkAnswer(event , ${questionIndex})" type="radio" name="option${questionIndex}">
+
+        </p>
+        <p>
+            ${quizData[questionIndex].options[1]} 
+            
+            <input value="${quizData[questionIndex].options[1]}" type="radio" name="option${questionIndex}" onchange="checkAnswer(event , ${questionIndex})">
+
+       </p>
+        <p> 
+            ${quizData[questionIndex].options[2]}
+
+            <input type="radio" name="option${questionIndex}" value="${quizData[questionIndex].options[2]}" onchange="checkAnswer(event, ${questionIndex})">
+
+        </p>
+
+        <p>
+            ${quizData[questionIndex].options[3]} 
+            
+            <input type="radio" name="option${questionIndex}" value="${quizData[questionIndex].options[3]}" onchange="checkAnswer(event, ${questionIndex})">
+            
+        </p>
+
+        <button onclick="prev()"> previous</button> ${params}`
+    }
+
+    display(`<button onclick="next()"> next</button>`)
+
+    function next() {
+        if (questionIndex === quizData.length - 2) {
+            questionIndex++
+            display(`<button onclick="submit()"> submit</button>`)
+        } else {
+            questionIndex++
+            display(`<button onclick="next()"> next</button>`)
+        }
+    }
+
+    function prev(params) {
+        if (questionIndex === 0) {
+            questionIndex = 0
+            alert('you cant go beyond this')
+        } else {
+            questionIndex--
+            score.pop()
+            display(`<button onclick="next()"> next</button>`)
+        }
+
+    }
+
+
+    function checkAnswer(ev, i) {
+        console.log(ev.target.value, quizData[i].answer);
+        if (ev.target.value === quizData[i].answer) {
+            score.splice(i, 1, 5)
+            console.log(score);
+        } else {
+            score.splice(i, 1, 0)
+            console.log(score);
+        }
+    }
+
+    function submit() {
+        let isSure = confirm('are you sure?')
+        if (isSure) {
+            let studentScore = score.reduce((a, b) => a + b, 0)
+            studentScore == (quizData.length * 5) ? section.innerHTML = `you scored ${studentScore}/${quizData.length * 5} , perfect score` :  section.innerHTML = `you scored ${studentScore}/${quizData.length * 5}`
+        }
+
+    }
+
+    console.log(score);
+
+    // [1, 2, 3, 4, 5].reduce((a, b) => a + b, 0)
+
+    // let array = [1, 2, 3, 4, 5]
+    // let sum = 0
+    // for (let index = 0; index < array.length; index++) {
+    //     sum = sum + array[index]
+    // }
+
+    // console.log(sum);
+</script>
