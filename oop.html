@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+
+</body>
+
+</html>
+<script>
+
+    // function Student(height, className, name, gender, age) {
+    //     this.height = height,
+    //         this.className = className,
+    //         this.name = name,
+    //         this.gender = gender,
+    //         this.age = age,
+    //         this.introduceYourself = function () {
+    //             return `my name is ${this.name} , i am a student of ${this.className},${this.gender}, ${this.age}years-old  and i'm ${this.height}`
+    //         }
+    // }
+
+    // Student.prototype.sayAge = function () {
+    //     return `i am ${this.age} `
+    // }
+
+
+
+
+
+
+    // let student1 = new Student('6ft', 'ss2a', 'popoola', 'male', 23)
+    // console.log(student1.introduceYourself());
+    // student1.run = function () {
+    //     return `i am ${student1.age} `
+    // }
+    // console.log(student1.sayAge());
+
+    // let student2 = new Student('5ft', '100lvl', 'john', 'male', 21)
+    // console.log(student2.introduceYourself());
+    // console.log(student2);
+    // console.log(student2.sayAge());
+
+
+    class Student {
+        constructor(height, className, name, gender, age) {
+
+            this.height = height,
+                this.className = className,
+                this.name = name,
+                this.gender = gender,
+                this.age = age
+        }
+
+        get graduate() {
+            if (this.age >= 25) {
+                return `you have graduated `
+            } else {
+                return `you cannot graduate at the moment `
+            }
+
+        }
+
+
+        set growOlder({ age, height }) {
+            this.age = ++age
+            this.height = height
+        }
+
+
+
+
+    }
+
+    let mastersStudent = new Student('5ft', 'masters', 'bola', 'female', 24)
+    console.log(mastersStudent.graduate);
+    mastersStudent.growOlder = { age: mastersStudent.age, height: "5'2ft" }
+    console.log(mastersStudent.age, mastersStudent.height);
+    mastersStudent.growOlder = { age: mastersStudent.age, height: "5'2ft" }
+    console.log(mastersStudent.age, mastersStudent.height);
+    console.log(mastersStudent.graduate);
+
+    class HigherLevelStudent extends Student {
+        constructor(height, className, name, gender, age, travel) {
+            super(height, className, name, gender, age)
+            this.travel = travel
+        }
+
+        tellUsAboutYourTravels() {
+            return `i have travelled to ${this.travel.join()}`
+        }
+
+        set growOlder(age) {
+            this.age = age + 2
+        }
+
+    }
+
+    let studentDami = new HigherLevelStudent('7ft', 'phd', 'damilola', 'male', 67, ['dubai', 'portugal', 'turkey'])
+
+    studentDami.growOlder = studentDami.age
+    console.log(studentDami.age);
+    console.log(studentDami.graduate);
+    console.log(studentDami.tellUsAboutYourTravels());
+
+
+    
+   
+
+
+</script>
