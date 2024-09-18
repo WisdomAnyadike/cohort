@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+</body>
+
+</html>
+<script>
+
+    const numbers = [1, 2, 3]
+    let newNumbers = [...numbers, 4, 5]
+    numbers.push(20)
+    let maxNum = Math.max(...numbers)
+
+    let values = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 24]
+    values.reverse()
+    let [val1, ...nums] = values
+    console.log(nums.reverse());
+    console.log(val1);
+
+
+    let [num2, num1] = numbers
+    console.log(num1);
+
+    const fullStack = [
+        ['HTML', 'CSS', 'JS', 'React'],
+        ['Node', 'Express', 'MongoDB']
+    ]
+
+
+    // let [
+    //     [firstCourse, secondCourse, ...rest] = frontend,
+    //     [firstBackEndCourse, ...others] = backend] = fullStack
+
+    // console.log(firstCourse);
+    // console.log(secondCourse);
+    // console.log(firstBackEndCourse);
+    // console.log(others);
+    // console.log(rest);
+
+    let [frontend, backend] = fullStack
+    let [first, second, ...rest] = frontend
+    let [firstBackEnd, ...others] = backend
+
+    console.log(first);
+    console.log(second);
+    console.log(firstBackEnd);
+    console.log(others);
+    console.log(rest);
+
+
+    for (const [first, second, third, forth] of fullStack) {
+        console.log(first, second, third, forth)
+    }
+
+
+    // obj destructuring
+
+    const rectangle = {
+        width: 20,
+        height: 10,
+        area: 200,
+        perimeter: 10
+    }
+    let { width, area, height, perimeter = 200 } = rectangle
+
+
+    console.log(width, height, area, perimeter)
+    console.log(rectangle);
+
+
+    // Without destructuring
+    const rect = {
+        width: 20,
+        height: 10
+    }
+
+    const recta = {
+        width: 80,
+        height: 30
+    }
+    // const calculatePerimeter = (rectangle) => {
+    //     return 2 * (rectangle.width + rectangle.height)
+    // }
+
+    const calculatePerimeter = ({ width, height }) => {
+        return 2 * (width + height)
+    }
+
+
+    console.log(calculatePerimeter(rect)) //60
+    console.log(calculatePerimeter(recta)) //220
+    //with destructuring
+
+
+    const user = {
+        name: 'Asabeneh',
+        title: 'Programmer',
+        country: 'Finland',
+        city: 'Helsinki'
+    }
+
+    const copiedUser = { ...user, name: 'daniel', title: 'dghjk', age: 23 }
+    console.log(copiedUser)
+
+
+    function sumNumbers() {
+        console.log(arguments);
+        let sum = 0
+        for (let index = 0; index < arguments.length; index++) {
+            sum = sum + arguments[index]
+
+        }
+
+
+        return sum
+    }
+
+    const addNumbers = (...args) => {
+        console.log(args);
+        // let sum = 0
+        // for (let index = 0; index < args.length; index++) {
+        //     sum = sum + args[index]
+
+        // }
+
+        let sum = args.reduce((a, b) => a + b, 0)
+
+        return sum
+    }
+
+    console.log(addNumbers(1, 23, 4, 567, 8));
+
+    console.log(sumNumbers(1, 23, 4, 567, 8));
+
+
+    const students = [
+        ['David', ['HTM', 'CSS', 'JS', 'React'], [98, 85, 90, 95]],
+        ['John', ['HTM', 'CSS', 'JS', 'React'], [85, 80, 85, 80]]
+    ]
+
+
+    // [
+    //   {
+    //     name: 'David',
+    //     skills: ['HTM','CSS','JS','React'],
+    //     scores: [98,85,90,95]
+    //   },
+    //   {
+    //     name: 'John',
+    //     skills: ['HTM','CSS','JS','React'],
+    //     scores: [85, 80,85,80]
+    //   }
+    // ]
+
+    function convertArrayToObject(params) {
+
+        let array = params.map(([name, skills, scores]) => { return { name , skills, scores } }
+        )
+
+        return array
+
+
+    }
+
+    console.log(convertArrayToObject(students));
+
+</script>
