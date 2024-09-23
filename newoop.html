@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<style>
+    body {
+        margin: 0;
+        overflow: hidden;
+        background-color: #000;
+    }
+
+    .white,
+    .whitee {
+        color: white;
+
+    }
+
+    .whitee {
+        position: fixed;
+        left: 45%;
+        top: 45%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .falling-triangle {
+        position: absolute;
+        top: -100px;
+        left: calc(100vw * var(--random-position));
+        width: 0;
+        height: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-left: calc(var(--size) / 2) solid transparent;
+        border-right: calc(var(--size) / 2) solid transparent;
+        border-bottom: var(--size) solid #FF6347;
+        animation: fall var(--speed) linear var(--delay) infinite;
+    }
+
+    #countdown,
+    #score {
+        width: fit-content;
+        padding: 4px;
+        height: 30px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 5px;
+        background-color: #FF6347;
+    }
+
+    #score {
+        position: fixed;
+        z-index: 10;
+        right: 0;
+        top: 0;
+    }
+
+    @keyframes fall {
+        to {
+            transform: translateY(100vh);
+        }
+    }
+</style>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Falling Triangles</title>
+</head>
+
+<body>
+
+
+</body>
+
+</html>
+<script>
+
+
+    class Game {
+        constructor(highestSize, timer) {
+            this.highestSize = highestSize,
+                this.Score = 0,
+                this.timer = timer,
+                this.clockStart = 0
+            this.lenghtbaby = 0
+
+        }
+
+
+        fall() {
+
+
+
+            if (this.highestSize < 100) {
+                document.body.innerHTML = `<h3 class="white"> Triangle size must be greather or equal to 100 </h3>`
+                return
+            }
+
+            document.body.innerHTML = `
+            <div id="countdown"> ${this.clockStart}:00s </div>
+            <div id="score"> ${this.Score} pts </div>
+    <div class="falling-triangle" style="--size: ${this.highestSize - 60}px; --speed: ${Math.floor(Math.random() * 11)}s; --delay: 0s;">   </div>
+    <div class="falling-triangle" style="--size: ${this.highestSize - 50}px; --speed: ${Math.floor(Math.random() * 11)}s; --delay: 0s;">   </div>
+    <div class="falling-triangle" style="--size: ${this.highestSize - 40}px; --speed: ${Math.floor(Math.random() * 11)}s; --delay: 0s;">   </div>
+    <div class="falling-triangle" style="--size:${this.highestSize - 30}px; --speed: ${Math.floor(Math.random() * 11)}s; --delay: 2s;">   </div>
+    <div class="falling-triangle" style="--size: ${this.highestSize - 20}px; --speed: ${Math.floor(Math.random() * 11)}s; --delay: 1s;">  </div>
+    <div class="falling-triangle" style="--size: ${this.highestSize - 10}px; --speed: ${Math.floor(Math.random() * 11)}s; --delay: 0.5s;">  </div>
+    <div class="falling-triangle" style="--size: ${this.highestSize}px; --speed: ${Math.floor(Math.random() * 11)}s; --delay: 0.5s;">   </div>`
+
+
+            let traingles = document.querySelectorAll('.falling-triangle')
+            traingles.forEach((triangle, i, arr) => {
+                triangle.style.setProperty('--random-position', 0.1 + Math.random() * 0.8);
+                triangle.addEventListener('animationiteration', () => {
+                    triangle.style.setProperty('--random-position', 0.1 + Math.random() * 0.8);
+                });
+                triangle.addEventListener('click', () => {
+                    triangle.style.display = 'none'
+                    this.lenghtbaby++
+                    this.Score = this.Score + 50
+                    document.querySelector('#score').innerHTML = `<span class="white"> ${this.Score} pts </span>`
+                    if (this.lenghtbaby === 7) {
+                        document.body.innerHTML = `<h3 class="whitee"> You Won! <b> You scored ${this.Score} <button id="restartBtn"> Restart </button> </b>  </h3>`
+                        document.getElementById('restartBtn').addEventListener('click', this.start);
+                    }
+                });
+            });
+
+        }
+
+        set check(start) {
+            let timerCheck = setInterval(() => {
+                start++
+                this.clockStart = start
+                document.querySelector('#countdown').innerHTML = `<span class="white"> ${this.clockStart}:00s </span>`
+                console.log(start);
+                if (this.clockStart === this.timer || this.lenghtbaby === 7) {
+                    clearInterval(timerCheck)
+                    document.body.innerHTML = `<h3 class="whitee"> Time up! <b> You scored ${this.Score} </b> <button id="restartBtn">  Try again </button>  </h3>`
+                    document.getElementById('restartBtn').addEventListener('click', this.start);
+                }
+            }, 1000)
+
+        }
+
+        get start() {
+            return () => window.location.reload()
+        }
+
+
+    }
+
+
+    let thisGame = new Game(100, 20)
+    thisGame.fall()
+    thisGame.check = 0
+
+
+</script>

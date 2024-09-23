@@ -62,8 +62,6 @@
         </div>`
             document.querySelectorAll(`#${this.id} button`).forEach((el) => {
                 // console.log(el);
-
-
                 el.addEventListener('click', (event) => {
                     let value = event.target.innerText
                     let screen = document.querySelector(`#${this.id} input`);
