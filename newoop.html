@@ -33,7 +33,7 @@
         justify-content: center;
         border-left: calc(var(--size) / 2) solid transparent;
         border-right: calc(var(--size) / 2) solid transparent;
-        border-bottom: var(--size) solid #FF6347;
+        border-bottom: var(--size) solid var(--colour);
         animation: fall var(--speed) linear var(--delay) infinite;
     }
 
@@ -84,8 +84,8 @@
                 this.Score = 0,
                 this.timer = timer,
                 this.clockStart = 0
-            this.lenghtbaby = 0
-
+               this.lenghtbaby = 0  ,
+               this.audio = new Audio('pop-39222.mp3')
         }
 
 
@@ -101,13 +101,15 @@
             document.body.innerHTML = `
             <div id="countdown"> ${this.clockStart}:00s </div>
             <div id="score"> ${this.Score} pts </div>
-    <div class="falling-triangle" style="--size: ${this.highestSize - 60}px; --speed: ${Math.floor(Math.random() * 11)}s; --delay: 0s;">   </div>
-    <div class="falling-triangle" style="--size: ${this.highestSize - 50}px; --speed: ${Math.floor(Math.random() * 11)}s; --delay: 0s;">   </div>
-    <div class="falling-triangle" style="--size: ${this.highestSize - 40}px; --speed: ${Math.floor(Math.random() * 11)}s; --delay: 0s;">   </div>
-    <div class="falling-triangle" style="--size:${this.highestSize - 30}px; --speed: ${Math.floor(Math.random() * 11)}s; --delay: 2s;">   </div>
-    <div class="falling-triangle" style="--size: ${this.highestSize - 20}px; --speed: ${Math.floor(Math.random() * 11)}s; --delay: 1s;">  </div>
-    <div class="falling-triangle" style="--size: ${this.highestSize - 10}px; --speed: ${Math.floor(Math.random() * 11)}s; --delay: 0.5s;">  </div>
-    <div class="falling-triangle" style="--size: ${this.highestSize}px; --speed: ${Math.floor(Math.random() * 11)}s; --delay: 0.5s;">   </div>`
+    <div class="falling-triangle" style="--size: ${this.highestSize - 60}px; --speed: ${Math.floor(Math.random() * 11)}s; --delay: 0s; --colour:${this.genHexa};">   </div>
+    <div class="falling-triangle" style="--size: ${this.highestSize - 50}px; --speed: ${Math.floor(Math.random() * 11)}s; --delay: 0s; --colour:${this.genHexa}; ">   </div>
+    <div class="falling-triangle" style="--size: ${this.highestSize - 40}px; --speed: ${Math.floor(Math.random() * 11)}s; --delay: 0s; --colour:${this.genHexa};">   </div>
+    <div class="falling-triangle" style="--size:${this.highestSize - 30}px; --speed: ${Math.floor(Math.random() * 11)}s; --delay: 2s; --colour:${this.genHexa};">   </div>
+    <div class="falling-triangle" style="--size: ${this.highestSize - 20}px; --speed: ${Math.floor(Math.random() * 11)}s; --delay: 1s; --colour:${this.genHexa};">  </div>
+    <div class="falling-triangle" style="--size: ${this.highestSize - 10}px; --speed: ${Math.floor(Math.random() * 11)}s; --delay: 0.5s; --colour:${this.genHexa}; ">  </div>
+    <div class="falling-triangle" style="--size: ${this.highestSize}px; --speed: ${Math.floor(Math.random() * 11)}s; --delay: 0.5s;  --colour:${this.genHexa};">   </div>`
+
+
 
 
             let traingles = document.querySelectorAll('.falling-triangle')
@@ -119,6 +121,7 @@
                 triangle.addEventListener('click', () => {
                     triangle.style.display = 'none'
                     this.lenghtbaby++
+                    this.audio.play()
                     this.Score = this.Score + 50
                     document.querySelector('#score').innerHTML = `<span class="white"> ${this.Score} pts </span>`
                     if (this.lenghtbaby === 7) {
@@ -147,6 +150,16 @@
 
         get start() {
             return () => window.location.reload()
+        }
+
+        get genHexa() {
+            let arr = [1, 2, 3, 4, 5, 'a', 'b', 'c', 'd', 'e', 'f']
+            let string = '#'
+            for (let index = 0; index < 6; index++) {
+                let random = Math.floor(Math.random() * arr.length)
+                string = string + arr[random]
+            }
+            return string
         }
 
 

@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://www.gstatic.com/firebasejs/10.13.2/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.13.2/firebase-auth-compat.js"></script>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        #forgot {
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="background">
+        <div class="shape"></div>
+        <div class="shape"></div>
+    </div>
+    <form>
+        <h3>Login Here</h3>
+
+        <label for="email">Email</label>
+        <input type="text" placeholder="Email" id="email">
+
+        <label for="password">Password</label>
+        <input placeholder="Password" id="password">
+
+
+
+        <button onclick="LogIn(event)" id="loginUser"> Log In </button>
+        <div class="social">
+            <div class="fb" style="width: 100%;  margin: auto;"><i class="fab fa-facebook"> </i>
+                <button type="button" style="color: black; background-color: blue;" id="forgotbutton"
+                    onclick="sendMail()"> Forgot
+                    Password? </button>
+                <input placeholder="enter mail here" id="forgot">
+            </div>
+        </div>
+    </form>
+
+</body>
+
+</html>
+<script>
+    const firebaseConfig = {
+        apiKey: "AIzaSyCu6rb5klCMbJszOx1EMit0u1hRl-RXs_w",
+        authDomain: "cohort2-d7788.firebaseapp.com",
+        projectId: "cohort2-d7788",
+        storageBucket: "cohort2-d7788.appspot.com",
+        messagingSenderId: "577839454895",
+        appId: "1:577839454895:web:4a4510de19a037fce7125a"
+    };
+
+    // Initialize Firebase
+    const app = firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth()
+    console.log(auth);
+
+
+    function LogIn(ev) {
+        ev.preventDefault()
+        loginUser.innerText = 'loading...'
+        if (!email.value.trim() || !password.value.trim()) {
+            alert('all fields are mandatory')
+            loginUser.innerText = 'Log In'
+            return
+        }
+
+        auth.signInWithEmailAndPassword(email.value, password.value)
+            .then((userCredential) => {
+                // Signed in
+
+                var user = userCredential.user;
+                if (auth.currentUser.emailVerified) {
+                    window.location.href = 'dashboard.html'
+                } else {
+                    auth.currentUser.sendEmailVerification()
+                        .then(() => {
+                            alert('email not verified, a verification link has been sent to your mail')
+                        });
+                }
+                loginUser.innerText = 'Log In'
+                // ...
+            })
+            .catch((error) => {
+                var errorCode = error.code;
+                var errorMessage = error.message;
+                loginUser.innerText = 'Log In'
+                alert(errorMessage)
+            });
+
+    }
+
+    forgot.style.display = "none"
+    function sendMail() {
+        if (forgot.style.display === "none") {
+            forgot.style.display = "block"
+
+        } else {
+            forgotbutton.innerText = 'loading...'
+            if (!forgot.value.trim()) {
+                alert('input your mail')
+                forgotbutton.innerText = 'Forgot Password?'
+            }
+
+            auth.sendPasswordResetEmail(forgot.value)
+                .then(() => {
+                    forgotbutton.innerText = 'Forgot Password?'
+                    alert('email sent successfully');
+                    // Password reset email sent!
+                    // ..
+                })
+                .catch((error) => {
+                    var errorCode = error.code;
+                    var errorMessage = error.message;
+                    alert(errorMessage)
+                    forgotbutton.innerText = 'Forgot Password?'
+                    // ..
+                });
+        }
+
+
+
+    }
+
+</script>

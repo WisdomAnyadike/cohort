@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://www.gstatic.com/firebasejs/10.13.2/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.13.2/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.13.2/firebase-firestore-compat.js"></script>
+</head>
+
+<body>
+
+
+</body>
+
+</html>
+<script>
+    const firebaseConfig = {
+        apiKey: "AIzaSyCu6rb5klCMbJszOx1EMit0u1hRl-RXs_w",
+        authDomain: "cohort2-d7788.firebaseapp.com",
+        projectId: "cohort2-d7788",
+        storageBucket: "cohort2-d7788.appspot.com",
+        messagingSenderId: "577839454895",
+        appId: "1:577839454895:web:4a4510de19a037fce7125a"
+    };
+
+    // Initialize Firebase
+    const app = firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth()
+    const db = firebase.firestore();
+    let currentUser
+    console.log(auth);
+
+    // document.body.innerHTML = `<div> `
+
+
+
+    auth.onAuthStateChanged((user) => {
+        if (user) {
+            currentUser = user.displayName
+            document.body.innerHTML = `<div> <p> welcome ${user.displayName}   <button onclick="logOut()"> log out </button> </p> 
+           <h1> Welcome to our Group Chat </h1>
+           <input type="text" id="mssgInput" />
+           <button onclick="sendMessage()"> send </button> 
+
+       <div id="preview"> 
+        
+        
+        </div>
+
+             </div> 
+            `
+            // User is signed in, see docs for a list of available properties
+            // https://firebase.google.com/docs/reference/js/v8/firebase.User
+            var uid = user.uid;
+            // ...
+        } else {
+            // User is signed out
+            // ...
+            window.location.href = 'login.html'
+        }
+    });
+
+
+    function logOut() {
+        auth.signOut().then(() => {
+            alert('Sign-out successful.')
+        }).catch((error) => {
+            alert(error)
+        });
+    }
+
+
+    function sendMessage(params) {
+        if (!mssgInput.value.trim()) {
+            alert('you cannot send an empty message')
+            return
+        }
+
+        // Add a new document in collection "cities"
+        db.collection("ChatDatabase").doc().set({
+            sender: currentUser,
+            message: mssgInput.value,
+            time: new Date().toTimeString()
+        })
+            .then(() => {
+                alert("message sent successfully!");
+                getMessages()
+                mssgInput.value = ''
+            })
+            .catch((error) => {
+                alert("Error sending message: ", error);
+            });
+
+    }
+
+    function getMessages() {
+        db.collection("ChatDatabase").orderBy("time")
+            .get()
+            .then((querySnapshot) => {
+                console.log(querySnapshot);
+                preview.innerHTML = ''
+                querySnapshot.forEach((doc) => {
+                    let ourMssg = doc.data()
+                    let deleteButton = ourMssg.sender === currentUser ? `<button> delete </button> <button onclick="editMssg('${doc.id}' , '${ourMssg.message}')"> edit </button>` : ''
+
+                    preview.innerHTML += `
+                    <p> ${ourMssg.sender}: ${ourMssg.message} </p>
+                    <p> time sent: ${ourMssg.time}   </p>
+
+                    <p> ${deleteButton}</p>
+                    `
+                });
+            })
+            .catch((error) => {
+                console.log("Error getting documents: ", error);
+            });
+    }
+
+    getMessages()
+
+
+    function editMssg(id, mssg) {
+        let thePrompt = prompt('enter new message', mssg)
+        if (thePrompt.trim()) {
+            db.collection("ChatDatabase").doc(id).update({
+                message: thePrompt
+            })
+                .then(() => {
+                    getMessages()
+                    alert("message successfully updated!");
+                })
+                .catch((error) => {
+                    // The document probably doesn't exist.
+                    alert("Error updating message: ", error);
+                });
+
+        } else {
+            alert('enter a value')
+        }
+
+    }
+</script>

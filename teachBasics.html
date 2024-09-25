@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <h1 onclick="run(event)"> help me run </h1>
+    <input onchange="checkValue(event)" type="text">
+    <p> </p>
+
+    <button onclick="signUp(event)"> sign up</button>
+    <input type="number" name="" id=""> <button onclick="increase(event)"> increase </button>
+
+    <button id="jump"> jump </button>
+</body>
+
+</html>
+<script>
+    // event setTimeout setInterval chooseFile 
+
+    function run(ev) {
+        ev.bubbles = false
+        console.log(ev)
+        ev.srcElement.nextElementSibling.innerText = 'i am running'
+    }
+
+    function checkValue(ev) {
+        ev.target.style.color = 'red'
+    }
+
+    let a = 25
+    let yayTimeout = setTimeout(() => {
+
+        if (a === 25) {
+            clearTimeout(yayTimeout)
+            return
+        }
+
+        console.log('yayy');
+
+    }, 5000)
+
+    function signUp(ev) {
+        console.log(ev);
+        ev.target.innerText = 'loading...'
+        ev.target.disabled = true
+
+        setTimeout(() => {
+            ev.target.innerText = 'sign up'
+            ev.target.disabled = false
+            alert('wowwwww, come in')
+
+        }, 3000);
+
+    }
+
+    setInterval(() => {
+        console.log('wow');
+    }, 5000);
+
+    let val = true
+    function increase(e) {
+        val = !val
+        let input = e.target.previousElementSibling
+        console.log(input);
+        if (input.value.trim() === '') {
+            alert('input a number please')
+        }
+        else {
+            let interval = setInterval(() => {
+                if (val == true) {
+                    clearInterval(interval)
+                } else {
+                    let val = Number(input.value)
+                    input.value = ++val
+                }
+            }, 1000);
+
+
+            // let val = Number(input.value)
+            // val++
+            // input.value = val
+        }
+    }
+
+    document.body.style.backgroundColor = 'white'
+    document.body.style.color = 'black'
+    document.querySelector('#jump').addEventListener('click', (es) => {
+        console.log(es);
+        if (document.body.style.backgroundColor == 'white' &&
+            document.body.style.color == 'black') {
+            document.body.style.backgroundColor = 'black'
+            document.body.style.color = 'white'
+        }else{
+            document.body.style.backgroundColor = 'white'
+            document.body.style.color = 'black'
+        }
+        alert('im jumping')
+    })
+
+
+</script>
