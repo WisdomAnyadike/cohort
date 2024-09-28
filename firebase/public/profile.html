@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://www.gstatic.com/firebasejs/10.13.2/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.13.2/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.13.2/firebase-storage-compat.js"></script>
+    
+    <style>
+        div {
+            background-position: center;
+            background-size: contain;
+            background-repeat: no-repeat;
+            position: relative;
+        }
+
+        div small {
+            position: absolute;
+            top: 45%;
+            left: 45%;
+
+        }
+    </style>
+</head>
+
+<body>
+    <div id="div" style="width: 200px; height: 200px; border-radius: 100%;">
+
+
+
+
+    </div>
+    <!-- <img id="profileImg" src="" width="40px" height="40px" alt=""> -->
+    <input type="file" onchange="chooseProfilePic(event)">
+
+</body>
+
+</html>
+<script>
+    const firebaseConfig = {
+        apiKey: "AIzaSyCu6rb5klCMbJszOx1EMit0u1hRl-RXs_w",
+        authDomain: "cohort2-d7788.firebaseapp.com",
+        projectId: "cohort2-d7788",
+        storageBucket: "cohort2-d7788.appspot.com",
+        messagingSenderId: "577839454895",
+        appId: "1:577839454895:web:4a4510de19a037fce7125a"
+    };
+
+    // Initialize Firebase
+    const app = firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth()
+    const storage = firebase.storage();
+
+    function chooseProfilePic(ev) {
+        let file = ev.target.files[0]
+
+        var storageRef = storage.ref(`${auth.currentUser.email}`);
+        var uploadTask = storageRef.put(file);
+        uploadTask.on('state_changed',
+            (snapshot) => {
+                console.log(snapshot);
+                var progress = ((snapshot.bytesTransferred / snapshot.totalBytes) * 100).toFixed();
+                console.log('Upload is ' + progress + '% done');
+
+
+                div.innerHTML = `<small> ${progress}%... </small>`
+
+
+
+            },
+            (error) => {
+                alert(error)
+                // Handle unsuccessful uploads
+            },
+            () => {
+                setTimeout(() => {
+                    div.innerHTML = ''
+                }, 1000);
+
+                // Handle successful uploads on complete
+                // For instance, get the download URL: https://firebasestorage.googleapis.com/...
+                uploadTask.snapshot.ref.getDownloadURL().then((downloadURL) => {
+                    console.log('File available at', downloadURL);
+                    const user = firebase.auth().currentUser;
+
+                    user.updateProfile({
+                        photoURL: downloadURL
+                    }).then(() => {
+                        // alert('profile succesffuly updated')
+                        checkUser()
+                        // Update successful
+                        // ...
+                    }).catch((error) => {
+                        alert(error)
+                        // An error occurred
+                        // ...
+                    });
+                });
+            }
+        );
+
+    }
+
+
+    function checkUser() {
+        firebase.auth().onAuthStateChanged((user) => {
+            if (user) {
+                // User is signed in, see docs for a list of available properties
+                // https://firebase.google.com/docs/reference/js/v8/firebase.User
+                var uid = user.uid;
+                console.log(user);
+                user.photoURL ? div.style.backgroundImage = `url(${user.photoURL})` : div.style.backgroundImage = "url('https://static.vecteezy.com/system/resources/thumbnails/009/292/244/small/default-avatar-icon-of-social-media-user-vector.jpg')"
+                // ...
+            } else {
+                window.location.href = 'login.html'
+                // User is signed out
+                // ...
+            }
+        });
+    }
+
+    checkUser()
+
+</script>
