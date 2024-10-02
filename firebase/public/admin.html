@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://www.gstatic.com/firebasejs/10.13.2/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.13.2/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.13.2/firebase-storage-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.13.2/firebase-database-compat.js"></script>
+</head>
+
+<body>
+    <h1> ADMIN PAGE </h1>
+
+    <button onclick="logOut()"> logOut </button>
+
+    <div id="userMessages">
+
+
+    </div>
+
+</body>
+
+</html>
+<script>
+    const firebaseConfig = {
+        apiKey: "AIzaSyCu6rb5klCMbJszOx1EMit0u1hRl-RXs_w",
+        authDomain: "cohort2-d7788.firebaseapp.com",
+        databaseURL: "https://cohort2-d7788-default-rtdb.firebaseio.com",
+        projectId: "cohort2-d7788",
+        storageBucket: "cohort2-d7788.appspot.com",
+        messagingSenderId: "577839454895",
+        appId: "1:577839454895:web:4a4510de19a037fce7125a"
+    };
+
+
+    // Initialize Firebase
+    const app = firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth()
+    const storage = firebase.storage();
+    const database = firebase.database();
+
+
+    function checkUser() {
+        firebase.auth().onAuthStateChanged((user) => {
+            if (user) {
+                // User is signed in, see docs for a list of available properties
+                // https://firebase.google.com/docs/reference/js/v8/firebase.User
+                var uid = user.uid;
+                console.log(user);
+                if (user.email !== 'anyadikewisdom@gmail.com') {
+                    alert('unauthorised')
+                    window.location.href = 'login.html'
+                }
+                // ...
+            } else {
+                window.location.href = 'login.html'
+                // User is signed out
+                // ...
+            }
+        });
+    }
+
+    checkUser()
+
+    function logOut() {
+        auth.signOut().then(() => {
+            alert('Sign-out successful.')
+        }).catch((error) => {
+            alert(error)
+        });
+    }
+
+
+    function display() {
+
+        firebase.database().ref('chat')
+            .on('value', (snapshot) => {
+                const data = snapshot.val() || [];
+
+
+                if (data.length === 0) {
+                    userMessages.innerHTML = 'no messages at the moment..'
+                    return
+                }
+
+                userMessages.innerHTML = ''
+
+                data.forEach(({ sender, message, time, profilePic, isChecked }, i) => {
+                    userMessages.innerHTML += ` 
+                    <p> <img width="30px" height="30px" src="${profilePic}"/> ${sender}: ${message}</p>
+                    <p> ${time}  <button onclick="sensor(${i} , '${message}' , ${isChecked})"> sensor message </button> </p>
+                    `
+                });
+            });
+
+
+
+
+    }
+
+    display()
+
+    function sensor(index, mssg, check) {
+        let val = false
+        let arr = ['fool', 'shit', 'fuck']
+
+
+        for (let index = 0; index < arr.length; index++) {
+            if (mssg.includes(arr[index])) {
+                val = true
+            }
+        }
+
+        if (check) {
+            alert('message is already sensored')
+            return
+        }
+
+        if (val) {
+            mssg = mssg.replace(/fool/ig, '****').replace(/shit/ig, '****').replace(/fuck/ig, '****')
+            firebase.database().ref(`chat/${index}`).update({
+                message: `${mssg} ,( this message doesnt follow our rules and regulations. kindly delete )`,
+                isChecked: true
+            }).then(() => { }).catch((error) => alert('couldnt sensor text at the moment:' + error))
+        } else {
+            alert('this message follows our rules and regulation')
+        }
+
+
+    }
+</script>
